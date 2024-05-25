@@ -1,5 +1,6 @@
 # Importing
 import pygame
+from random import randint
 from sprites import Player, Cube
 from level import Walls
 
@@ -24,13 +25,14 @@ player_hitbox = pygame.rect.Rect((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 64, 64))
 
 
 
-
-
 # The game
 class Game:
 
     def main() -> None:
         dodge_roll_cooldown: int = 500
+        
+        # NOTE_ TO SELF: CHANGE THESE NUMBERS
+        map_num = randint(1, 1)
 
         while True:
 
@@ -39,7 +41,7 @@ class Game:
 
 
             # Functions
-            colliding_walls_player = Walls.show(screen, player_hitbox)
+            colliding_walls_player = Walls.show(screen, map_num, player_hitbox)
             in_a_dodge_roll = Player.movement(player_hitbox, SCREEN_WIDTH, SCREEN_HEIGHT, dodge_roll_cooldown, colliding_walls_player)
 
             dodge_roll_cooldown -= 1

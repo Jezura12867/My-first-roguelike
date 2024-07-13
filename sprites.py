@@ -1,4 +1,5 @@
 import pygame
+import math
 
 
 class Player:
@@ -12,33 +13,33 @@ class Player:
         key = pygame.key.get_pressed()
 
 
-        
-
         # Movement
-        if player_hitbox.y >= 0 and wall_colide[0] != True:
-            if key[pygame.K_w] == True:
-                player_hitbox.y -= player_movement_speed
-                direction[1] = -1
-
+        if key[pygame.K_w] == True:
+            player_hitbox.y -= 1 * player_movement_speed
+            direction[1] = -1
         
-        if player_hitbox.y + 64 <= SCREEN_HEIGHT - 17.5 and wall_colide[1] != True:
-            if key[pygame.K_s] == True:
-                player_hitbox.y += player_movement_speed
-                direction[1] = 1
+        if key[pygame.K_s] == True:
+            player_hitbox.y += 1 * player_movement_speed
+            direction[1] = 1
 
+        if key[pygame.K_a] == True:
+            player_hitbox.x -= 1 * player_movement_speed
+            direction[0] = -1
 
-        if player_hitbox.x > 0 and wall_colide[2] != True:
-            if key[pygame.K_a] == True:
-                player_hitbox.x -= player_movement_speed
-                direction[0] = -1
+        if key[pygame.K_d] == True:
+            player_hitbox.x += 1 * player_movement_speed
+            direction[0] = 1
 
-
-        if player_hitbox.x + 75 <= SCREEN_WIDTH and wall_colide[3] != True:
-            if key[pygame.K_d] == True:
-                player_hitbox.x += player_movement_speed
-                direction[0] = 1
-    
+        # Collision
+        if wall_colide == True:
+            for i in range(math.ceil(abs(direction[0] * player_movement_speed))):
+                if wall_colide == True:
+                    player_hitbox.x += direction[0] * player_movement_speed / abs(direction[0] * player_movement_speed) * -1
         
+        if wall_colide == True:    
+            for i in range(math.floor(abs(direction[1] * player_movement_speed))):
+                if wall_colide == True:
+                    player_hitbox.y += direction[1] * player_movement_speed / abs(direction[1] * player_movement_speed) * -1
 
 
         # Dodge roll

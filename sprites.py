@@ -1,9 +1,12 @@
+# Importing
 import pygame
 import math
 
 
 class Player:
+    
     def movement(player_hitbox, SCREEN_WIDTH, SCREEN_HEIGHT, dodge_roll_cooldown, wall_colide) -> bool:
+    
         # Variables
         player_movement_speed: int = 5
         direction:list = [0, 0]
@@ -57,10 +60,12 @@ class Player:
         
 
 
-        
 
 class Cube(pygame.sprite.Sprite):
+
     def __init__(self, pozice, size):
+    
+        # Sets up the cube fromatting
         super().__init__()
         self.image = pygame.Surface((size, size))
         self.image.fill("red")

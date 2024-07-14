@@ -1,7 +1,9 @@
 # Importing
 import pygame
+from random import randint
 from sprites import Player, Cube
 from level import Walls
+from guns import GunSystem
 
 
 # Global variables
@@ -20,8 +22,7 @@ title = pygame.display.set_caption("Rougeu liek")
 
 # Sprites
 player_hitbox = pygame.rect.Rect((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 64, 64))
-
-
+gun = pygame.rect.Rect((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 32, 16))
 
 
 
@@ -30,8 +31,15 @@ player_hitbox = pygame.rect.Rect((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 64, 64))
 class Game:
 
     def main() -> None:
+        # Sets dodge cooldown
         dodge_roll_cooldown: int = 500
 
+        
+        # NOTE_ TO SELF: CHANGE THESE NUMBERS
+        # Decides, what room type you begin in
+        map_num = randint(0, 0)
+
+        # Tho main game loop
         while True:
 
             # Makes the screen gray
@@ -39,9 +47,12 @@ class Game:
 
 
             # Functions
-            colliding_walls_player = Walls.show(screen, player_hitbox)
+            colliding_walls_player = Walls.show(screen, map_num, player_hitbox)
             in_a_dodge_roll = Player.movement(player_hitbox, SCREEN_WIDTH, SCREEN_HEIGHT, dodge_roll_cooldown, colliding_walls_player)
+            GunSystem().run(gun, player_hitbox)
 
+
+            # Dodge management
             dodge_roll_cooldown -= 1
             if in_a_dodge_roll == True:
                 dodge_roll_cooldown = 120
@@ -49,7 +60,7 @@ class Game:
 
             # Rendering
             pygame.draw.rect(screen, (0, 255, 175), player_hitbox)
-
+            pygame.draw.rect(screen, (200, 200, 0), gun)
 
 
             # Quit function
@@ -58,7 +69,6 @@ class Game:
                     pygame.quit()
                     quit
             
-
 
             # 60 fps; updating the screen
             clock.tick(60)

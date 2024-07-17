@@ -1,7 +1,9 @@
-# Importing
+# Importing libraries
 import pygame
 from random import randint
-from sprites import Player, Cube
+
+# Importing from other scripts
+from sprites import Player
 from level import Walls
 from guns import GunSystem
 
@@ -23,7 +25,7 @@ title = pygame.display.set_caption("Rougeu liek")
 # Sprites
 player_hitbox = pygame.rect.Rect((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 64, 64))
 gun = pygame.rect.Rect((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 32, 16))
-
+bullet = pygame.rect.Rect((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 8, 8))
 
 
 
@@ -38,6 +40,7 @@ class Game:
         # NOTE_ TO SELF: CHANGE THESE NUMBERS
         # Decides, what room type you begin in
         map_num = randint(0, 0)
+        bullet_spawned = False
 
         # Tho main game loop
         while True:
@@ -49,8 +52,7 @@ class Game:
             # Functions
             colliding_walls_player = Walls.show(screen, map_num, player_hitbox)
             in_a_dodge_roll = Player.movement(player_hitbox, SCREEN_WIDTH, SCREEN_HEIGHT, dodge_roll_cooldown, colliding_walls_player)
-            GunSystem().run(gun, player_hitbox)
-
+            bullet_spawned = GunSystem().run(gun, player_hitbox, bullet, SCREEN_WIDTH, SCREEN_HEIGHT, bullet_spawned)
 
             # Dodge management
             dodge_roll_cooldown -= 1
@@ -61,6 +63,8 @@ class Game:
             # Rendering
             pygame.draw.rect(screen, (0, 255, 175), player_hitbox)
             pygame.draw.rect(screen, (200, 200, 0), gun)
+            if bullet_spawned == True:
+                pygame.draw.rect(screen, (200, 200, 0), bullet)
 
 
             # Quit function
